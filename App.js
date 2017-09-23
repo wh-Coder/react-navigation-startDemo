@@ -64,9 +64,21 @@ const MainScreenNavigator = TabNavigator({
   All: { screen: AllContactsScreen },
 });
 
+class NavigatorWrappingScreen extends React.Component {
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Text>SomeComponent</Text>
+        <MainScreenNavigator navigation={this.props.navigation} />
+      </View>
+    )
+  }
+}
+NavigatorWrappingScreen.router = MainScreenNavigator.router;
+
 const SimpleApp = StackNavigator({
   Home: {
-    screen: MainScreenNavigator,
+    screen: NavigatorWrappingScreen,
     navigationOptions: {
       title: 'My Chats',
     }
