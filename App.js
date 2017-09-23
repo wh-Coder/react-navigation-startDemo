@@ -43,13 +43,19 @@ class ChatScreen extends React.Component {
 
 class RecentChatsScreen extends React.Component {
   render() {
-    return <Text>List of recent chats</Text>
+    return <Button
+      onPress={() => this.props.navigation.navigate('Chat', { user: 'Lucy1' })}
+      title="Chat with Lucy1"
+    />
   }
 }
 
 class AllContactsScreen extends React.Component {
   render() {
-    return <Text>List of all contacts</Text>
+    return <Button
+      onPress={() => this.props.navigation.navigate('Chat', { user: 'Lucy2' })}
+      title="Chat with Lucy2"
+    />
   }
 }
 
@@ -59,9 +65,14 @@ const MainScreenNavigator = TabNavigator({
 });
 
 const SimpleApp = StackNavigator({
-  Home: { screen: HomeScreen },
+  Home: {
+    screen: MainScreenNavigator,
+    navigationOptions: {
+      title: 'My Chats',
+    }
+  },
   Chat: { screen: ChatScreen },
 });
 
 // if you are using create-react-native-app you don't need this line
-AppRegistry.registerComponent('SimpleApp', () => MainScreenNavigator);
+AppRegistry.registerComponent('SimpleApp', () => SimpleApp);
