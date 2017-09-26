@@ -47,6 +47,10 @@ const SimpleApp = StackNavigator({
 },{
     navigationOptions: {
         title: 'HELLO',
+        // header: null
+    },
+    onTransitionStart(a) {
+        console.log(a)
     }
 });
 
