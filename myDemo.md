@@ -323,9 +323,24 @@ navigationOptions = {
 
 和 StackNavigator 一样
 
+## 配合 Mobx
+
+### react-native 中使用mobx
+
+```shell
+npm i mobx mobx-react --save
+npm i babel-plugin-transform-decorators-legacy --save-dev
+
+.babelrc
+{
+ 'presets': ['react-native'],
+ 'plugins': ['transform-decorators-legacy']
+}
+```
 
 
 
+[参考](https://medium.com/react-native-training/react-native-with-mobx-getting-started-ba7e18d8ff44)
 
 
 
