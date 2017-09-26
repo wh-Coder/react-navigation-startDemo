@@ -1,6 +1,6 @@
 import React from 'react';
-import {AppRegistry, View, Button, Text} from 'react-native';
-import {StackNavigator} from 'react-navigation';
+import {AppRegistry, View, Button, Text, ScrollView} from 'react-native';
+import {StackNavigator, DrawerNavigator, DrawerItems} from 'react-navigation';
 
 class FirstPage extends React.Component {
     static navigationOptions = {
@@ -36,6 +36,28 @@ class SecondPage extends React.Component {
     }
 }
 
+class HomePage extends React.Component {
+
+    static navigationOptions = {
+        drawerLabel: 'HomePage',
+    };
+
+    render() {
+        return (
+            <View>
+                <Button
+                    onPress={() => this.props.navigation.navigate('Stack')}
+                    title="Go to notifications"
+                />
+                <Button
+                    onPress={() => this.props.navigation.navigate('DrawerOpen')}
+                    title="DrawerOpen"
+                />
+            </View>
+        );
+    }
+}
+
 const SimpleApp = StackNavigator({
     FirstPage: {screen: FirstPage},
     SecondPage: {
@@ -54,4 +76,23 @@ const SimpleApp = StackNavigator({
     }
 });
 
-AppRegistry.registerComponent('SimpleApp', () => SimpleApp);
+const DrawerComponent = DrawerNavigator({
+    Home: {
+        screen: HomePage,
+    },
+    Stack: {
+        screen: SimpleApp,
+        navigationOptions: {
+            drawerLabel: 'StackPage',
+        }
+    },
+}, {
+    drawerWidth: 200,
+    drawerPosition: 'right',
+    contentComponent: props => <ScrollView><DrawerItems {...props} /></ScrollView>,
+    contentOptions: {
+        activeBackgroundColor: 'blue'
+    }
+});
+
+AppRegistry.registerComponent('SimpleApp', () => DrawerComponent);

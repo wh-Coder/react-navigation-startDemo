@@ -113,7 +113,7 @@ const BaseComponent = StackNavigator(RouteConfigs, StackNavigatorConfig)
 每个路由的个性化配置
 
 ```react
-RouteConfigs = {
+{
   
   // 一个标识符，各个界面的名字
   FirstPage: {
@@ -138,7 +138,7 @@ RouteConfigs = {
 全局可选配置
 
 ```react
-StackNavigatorConfig = {
+{
   // 路由方面的配置
   initialRouteName:,// 设置默认初始化界面，如果没有就加在RouteConfigs中注册的第一个
   initialRouteParams:,// 初始化配置的参数
@@ -166,7 +166,7 @@ StackNavigatorConfig = {
 因为这个头部 IOS 和 Android 差异过大，一般自定义了，全局配置个 header:null ，不过多介绍
 
 ```
-navigationOptions = {
+{
   title:,// 标题
   header:, // React 组件，设置 null 可以隐藏头部
 }
@@ -184,9 +184,144 @@ screenProps: 把额外的配置传到子页面中
 />
 ```
 
+## 标签导航器 TabNavigator
 
+iOS 和 Android 差异太大弃用，采用其他 [react-native-tab-navigator](https://github.com/happypancake/react-native-tab-navigator) 等其他 tab 代替
 
+## 抽屉导航器 DrawerNavigator
 
+用法和 StackNavigator 类似
+
+### 补充简单的例子
+
+```react
+import {DrawerNavigator, DrawerItems} from 'react-navigation';
+class HomePage extends React.Component {
+    static navigationOptions = {
+        drawerLabel: 'HomePage',
+    };
+
+    render() {
+        return (
+            <View>
+                <Button
+                    onPress={() => this.props.navigation.navigate('Stack')}
+                    title="Go to notifications"
+                />
+                <Button
+                    onPress={() => this.props.navigation.navigate('DrawerOpen')}
+                    title="DrawerOpen"
+                />
+            </View>
+        );
+    }
+}
+const DrawerComponent = DrawerNavigator({
+    Home: {
+        screen: HomePage,
+    },
+    Stack: {
+        screen: SimpleApp,
+        navigationOptions: {
+            drawerLabel: 'StackPage',
+        }
+    },
+}, {
+    drawerWidth: 200,
+    drawerPosition: 'right',
+    contentComponent: props => <ScrollView><DrawerItems {...props} /></ScrollView>,
+    contentOptions: {
+        activeBackgroundColor: 'blue'
+    }
+});
+AppRegistry.registerComponent('SimpleApp', () => DrawerComponent);
+```
+
+1. 引入导航器和默认的一个抽屉子项
+
+   ```react
+   import {DrawerNavigator, DrawerItems} from 'react-navigation';
+   ```
+
+2. 配置抽屉子项，drawerLabel 是显示到抽屉栏的名字
+
+   ```react
+   static navigationOptions = {
+   	drawerLabel: 'HomePage',
+   };
+   ```
+
+3. 注册页面到抽屉导航器中
+
+   ```
+   const DrawerComponent = DrawerNavigator({
+     Home: {screen: HomePage},
+     Stack: {
+           screen: SimpleApp,
+           navigationOptions: {
+               drawerLabel: 'StackPage',
+           }
+       },
+   })
+   ```
+
+### API 配置
+
+```react
+const BaseComponent = DrawerNavigator(RouteConfigs, DrawerNavigatorConfig)
+```
+
+#### RouteConfigs
+
+和 StackNavigator 一样 
+
+#### DrawerNavigatorConfig
+
+```react
+{
+  drawerWidth:,
+  drawerPosition:,// 可选：left / right 默认left
+  contentComponent:,// 抽屉组件重构，传递的 props 是给抽屉子组件的
+  contentOptions:,// 配置抽屉子项，下面详细
+  useNativeAnimations:,// 开启动画
+  
+  initialRouteName:,// 初始化
+  order:,// 数组，抽屉子项的顺序
+  paths:,// web
+  backBehavior:,// 是否可以后退到初始状态，如果可以必须设置initialRouteName
+}
+```
+
+#### contentOptions
+
+```react
+contentOptions = {
+  items:,// 所有注册抽屉子组件集合
+  activeItemKey:,//
+  activeTintColor:,
+  activeBackgroundColor:,
+  inactiveTintColor:,
+  inactiveBackgroundColor:,
+  onItemPress(route):,
+  style:,
+  labelStyle:,
+}
+```
+
+#### navigationOptions
+
+```react
+navigationOptions = {
+  title:,// 回退时的通用标题，没明白
+  drawerLabel:,// 每个子项的名字
+  drawerIcon:,// React 组件
+  drawerLockMode,//可选('unlocked', 'locked-closed', 'locked-open')
+}
+```
+
+#### BaseComponent
+
+和 StackNavigator 一样
 
 
 
